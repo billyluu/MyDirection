@@ -1,7 +1,5 @@
 package com.billylu.mydirection;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     public void btn_add_direction(View view){
         MyDialog dialog = new MyDialog(this);
         dialog.showAddDirectionDialog(new CallBack() {
@@ -55,7 +51,5 @@ public class MainActivity extends AppCompatActivity {
         adapter = new RecycleAdapter(this, R.layout.recycle_view_item);
         recyclerView.setAdapter(adapter);
     }
-
-
 
 }

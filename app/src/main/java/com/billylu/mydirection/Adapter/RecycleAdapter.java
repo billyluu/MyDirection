@@ -18,7 +18,7 @@ import com.billylu.mydirection.model.MyApplication;
 import java.util.List;
 
 /**
- * Created by art-imac-02 on 2017/7/10.
+ * Created by BillyLu on 2017/7/10.
  */
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
@@ -31,7 +31,6 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         list = MyApplication.directionBeanList;
         mContext = context;
     }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
@@ -68,12 +67,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         return list.size();
     }
 
-
     public void startSearchDirection(String dir) {
         Uri intentUri = Uri.parse("geo:0,0?q="+dir);
         Intent intent = new Intent(Intent.ACTION_VIEW, intentUri);
         intent.setPackage("com.google.android.apps.maps");
         mContext.startActivity(intent);
     }
-
 }
