@@ -3,6 +3,7 @@ package com.billylu.mydirection.model;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -27,7 +28,6 @@ public class MyDialog {
         builder.setMessage("目前尚無資料。");
         builder.setPositiveButton(R.string.confirm, null);
         builder.show();
-
     }
 
     public void showAddDirectionDialog(final CallBack callBack) {
@@ -42,6 +42,7 @@ public class MyDialog {
                 bean.setDirection(direction);
                 MyApplication.directionBeanList.add(bean);
                 callBack.changed();
+                Log.i(TAG, "(Add)Size:" + MyApplication.directionBeanList.size());
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -51,6 +52,26 @@ public class MyDialog {
             }
         });
         builder.show();
+    }
+
+    public void deleteDialog(final int position, final CallBack callBack) {
+        builder.setMessage("確定刪除？");
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MyApplication.directionBeanList.remove(position);
+                Log.i(TAG, "(Delete)Size:" + MyApplication.directionBeanList.size());
+                callBack.changed();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+
     }
 
 }

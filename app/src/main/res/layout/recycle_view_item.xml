@@ -3,36 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="60dp"
+    android:id="@+id/viewitem"
+    android:layout_marginBottom="0.5dp"
+    android:background="@drawable/item_shape">
 
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="69dp"
-        android:layout_height="38dp"
+        android:layout_width="56dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
         android:text="地點："
         android:textSize="18dp"
-        android:gravity="center"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/text_direction"
-        android:layout_width="191dp"
-        android:layout_height="35dp"
-        android:layout_marginLeft="12dp"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="11dp"
+        android:gravity="left|center"
         android:text="TextView"
         android:textSize="18dp"
-        android:gravity="left|center"
         app:layout_constraintLeft_toRightOf="@+id/textView"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView" />
 
     <Button
         android:id="@+id/btn_send"
-        android:layout_width="87dp"
-        android:layout_height="39dp"
-        android:layout_marginLeft="0dp"
-        android:text="查詢"
-        app:layout_constraintLeft_toRightOf="@+id/text_direction"
-        tools:layout_editor_absoluteY="16dp" />
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/button_shape"
+        android:text="查 詢"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text_direction" />
 </android.support.constraint.ConstraintLayout>
