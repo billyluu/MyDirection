@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "661335147896",
+    "firebase_url": "https://mydirection-9fc4f.firebaseio.com",
+    "project_id": "mydirection-9fc4f",
+    "storage_bucket": "mydirection-9fc4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661335147896:android:ac3fde3c858a43b6",
+        "android_client_info": {
+          "package_name": "com.billylu.mydirection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661335147896-7mu7jiiqfplp41hcla74pfiosm7iht4l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.billylu.mydirection",
+            "certificate_hash": "c82913ad972e1a4ded44e6c3b13d41e44cc1e92c"
+          }
+        },
+        {
+          "client_id": "661335147896-hvi1pcuung40a2enlkhthsj87mbk1oq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.billylu.mydirection",
+            "certificate_hash": "3ae1c1d0183be7b9b246630271464005a9795bbe"
+          }
+        },
+        {
+          "client_id": "661335147896-o3tbfdbpfnoohhd75f43ivg0a8i2ugcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoK8BKhIuOK1J_UyhrueJ0i6wTa7OaCaY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661335147896-o3tbfdbpfnoohhd75f43ivg0a8i2ugcg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

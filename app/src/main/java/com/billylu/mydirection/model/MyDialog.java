@@ -30,48 +30,34 @@ public class MyDialog {
         builder.show();
     }
 
-    public void showAddDirectionDialog(final CallBack callBack) {
+    public void showAddDirectionDialog(final String imei, final CallBack callBack) {
         final View layout = LayoutInflater.from(context).inflate(R.layout.add_direction_layout, null);
-        builder.setTitle("新增目的地");
-        builder.setView(layout);
-        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String direction = ((EditText)layout.findViewById(R.id.edit_direction)).getText().toString();
-                DirectionBean bean = new DirectionBean();
-                bean.setDirection(direction);
-                MyApplication.directionBeanList.add(bean);
-                callBack.changed();
-                Log.i(TAG, "(Add)Size:" + MyApplication.directionBeanList.size());
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.show();
+        builder.setTitle("新增目的地")
+                .setView(layout)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                            String direction = ((EditText)layout.findViewById(R.id.edit_direction)).getText().toString();
+                            new FireBaseModel(imei).saveData(direction);
+                            callBack.onChanged();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     public void deleteDialog(final int position, final CallBack callBack) {
-        builder.setMessage("確定刪除？");
-        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                MyApplication.directionBeanList.remove(position);
-                Log.i(TAG, "(Delete)Size:" + MyApplication.directionBeanList.size());
-                callBack.changed();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.show();
-
+        builder.setMessage("確定刪除？")
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MyApplication.directionBeanList.remove(position);
+                        Log.i(TAG, "(Delete)Size:" + MyApplication.directionBeanList.size());
+                        callBack.onChanged();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
 }

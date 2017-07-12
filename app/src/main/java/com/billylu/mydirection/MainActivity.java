@@ -1,5 +1,6 @@
 package com.billylu.mydirection;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.billylu.mydirection.model.CallBack;
-import com.billylu.mydirection.model.DirectionBean;
+import com.billylu.mydirection.model.FireBaseModel;
 import com.billylu.mydirection.model.MyApplication;
 import com.billylu.mydirection.model.MyDialog;
 
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecycleAdapter adapter;
+    private TelephonyManager tM;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,40 +38,48 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "Size:" + MyApplication.directionBeanList.size());
         recyclerView = (RecyclerView) findViewById(R.id.recycle_listview);
 
-        if(MyApplication.directionBeanList.size() != 0){
-            setRecyclerView();
-        } else {
-            new MyDialog(this).normalDialog();
-        }
+        tM  = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+
+        setView();
 
     }
 
     public void btn_add_direction(View view){
         MyDialog dialog = new MyDialog(this);
-        dialog.showAddDirectionDialog(new CallBack() {
+        String imei = tM.getDeviceId();
+        dialog.showAddDirectionDialog(imei, new CallBack() {
             @Override
-            public void changed() {
-                setRecyclerView();
+            public void onChanged() {
+                setView();
             }
         });
-
     }
 
-    private void setRecyclerView() {
+    private void setView() {
+        String imei = tM.getDeviceId();
+        new FireBaseModel(imei).readData(new FireBaseModel.FireBaseCallBack(){
+            @Override
+            public void onGetData(List<String> list) {
+                setRecyclerView(list);
+            }
+        });
+    }
+
+    private void setRecyclerView(List<String> dataList) {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecycleAdapter(R.layout.recycle_view_item);
+        adapter = new RecycleAdapter(dataList, R.layout.recycle_view_item);
         recyclerView.setAdapter(adapter);
     }
 
     class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
         private int layout;
-        private List<DirectionBean> list;
+        private List<String> list;
 
-        public RecycleAdapter(int layout) {
+        public RecycleAdapter(List<String> list, int layout) {
             this.layout = layout;
-            list = MyApplication.directionBeanList;
+            this.list = list;
 
         }
 
@@ -92,28 +104,28 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecycleAdapter.ViewHolder holder, final int position) {
-            holder.textView.setText(list.get(position).getDirection());
+            holder.textView.setText(list.get(position));
             holder.send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String dir = list.get(position).getDirection();
+                    String dir = list.get(position);
                     Log.i("DIR", dir);
                     startSearchDirection(dir);
                 }
             });
 
-            holder.viewitem.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    new MyDialog(MainActivity.this).deleteDialog(position, new CallBack() {
-                        @Override
-                        public void changed() {
-                            setRecyclerView();
-                        }
-                    });
-                    return true;
-                }
-            });
+//            holder.viewitem.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    new MyDialog(MainActivity.this).deleteDialog(position, new CallBack() {
+//                        @Override
+//                        public void onChanged() {
+//                            setRecyclerView();
+//                        }
+//                    });
+//                    return true;
+//                }
+//            });
         }
 
         @Override
@@ -128,4 +140,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+
 }

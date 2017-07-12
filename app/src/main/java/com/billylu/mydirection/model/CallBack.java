@@ -5,5 +5,7 @@ package com.billylu.mydirection.model;
  */
 
 public interface CallBack {
-    void changed();
+    void onChanged();
+
+
 }
