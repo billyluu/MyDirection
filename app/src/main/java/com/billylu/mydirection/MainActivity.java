@@ -17,8 +17,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.billylu.mydirection.model.CallBack;
+import com.billylu.mydirection.model.Check;
+import com.billylu.mydirection.model.DirectionBean;
 import com.billylu.mydirection.model.FireBaseModel;
-import com.billylu.mydirection.model.MyApplication;
 import com.billylu.mydirection.model.MyDialog;
 
 import java.util.List;
@@ -35,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(TAG, "Size:" + MyApplication.directionBeanList.size());
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_listview);
 
+        new Check(this).checkNetWork();
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_listview);
         tM  = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 
         setView();
@@ -59,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
         String imei = tM.getDeviceId();
         new FireBaseModel(imei).readData(new FireBaseModel.FireBaseCallBack(){
             @Override
-            public void onGetData(List<String> list) {
+            public void onGetData(List<DirectionBean> list) {
                 setRecyclerView(list);
             }
         });
     }
 
-    private void setRecyclerView(List<String> dataList) {
+    private void setRecyclerView(List<DirectionBean> dataList) {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -75,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
     class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
         private int layout;
-        private List<String> list;
+        private List<DirectionBean> list;
 
-        public RecycleAdapter(List<String> list, int layout) {
+        public RecycleAdapter(List<DirectionBean> list, int layout) {
             this.layout = layout;
             this.list = list;
 
@@ -104,28 +106,26 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecycleAdapter.ViewHolder holder, final int position) {
-            holder.textView.setText(list.get(position));
+            final DirectionBean bean = list.get(position);
+            holder.textView.setText(bean.getDirection());
             holder.send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String dir = list.get(position);
+                    String dir = bean.getDirection();
                     Log.i("DIR", dir);
                     startSearchDirection(dir);
                 }
             });
 
-//            holder.viewitem.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//                    new MyDialog(MainActivity.this).deleteDialog(position, new CallBack() {
-//                        @Override
-//                        public void onChanged() {
-//                            setRecyclerView();
-//                        }
-//                    });
-//                    return true;
-//                }
-//            });
+            holder.viewitem.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    String key = bean.getKey();
+                    String imei = tM.getDeviceId();
+                    new MyDialog(MainActivity.this).deleteDialog(imei, key);
+                    return true;
+                }
+            });
         }
 
         @Override

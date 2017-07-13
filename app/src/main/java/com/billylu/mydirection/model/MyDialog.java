@@ -3,7 +3,6 @@ package com.billylu.mydirection.model;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -46,14 +45,12 @@ public class MyDialog {
                 .show();
     }
 
-    public void deleteDialog(final int position, final CallBack callBack) {
+    public void deleteDialog(final String imei, final  String key) {
         builder.setMessage("確定刪除？")
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MyApplication.directionBeanList.remove(position);
-                        Log.i(TAG, "(Delete)Size:" + MyApplication.directionBeanList.size());
-                        callBack.onChanged();
+                        new FireBaseModel(imei).deleteData(key);
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)

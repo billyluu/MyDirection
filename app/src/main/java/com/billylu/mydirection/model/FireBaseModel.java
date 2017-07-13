@@ -26,7 +26,7 @@ public class FireBaseModel {
     }
 
     public void saveData(String direction) {
-        myRef.child("Direction").setValue(direction);
+        myRef.push().child("Direction").setValue(direction);
         Log.i(TAG, "saveData");
     }
 
@@ -34,9 +34,12 @@ public class FireBaseModel {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> list = new ArrayList<String>();
+                List<DirectionBean> list = new ArrayList<DirectionBean>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    list.add(ds.getValue().toString());
+                    DirectionBean bean = new DirectionBean();
+                    bean.setKey(ds.getKey());
+                    bean.setDirection(ds.child("Direction").getValue().toString());
+                    list.add(bean);
                 }
                 fireBaseCallBack.onGetData(list);
             }
@@ -48,12 +51,12 @@ public class FireBaseModel {
         });
     }
 
-    public void deleteData(){
-
+    public void deleteData(String key){
+        myRef.child(key).removeValue();
     }
 
     public interface FireBaseCallBack {
-        void onGetData(List<String> list);
+        void onGetData(List<DirectionBean> list);
     }
 
 }
