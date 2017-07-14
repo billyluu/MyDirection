@@ -1,8 +1,11 @@
 package com.billylu.mydirection;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +30,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = MainActivity.class.getSimpleName();
 
+    private static final int REQUEST_PHONE_STATE = 0;
+
     private RecyclerView recyclerView;
     private RecycleAdapter adapter;
     private TelephonyManager tM;
@@ -36,13 +41,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkPermisson();
 
-        new Check(this).checkNetWork();
+        if (!new Check(this).checkNetWork()) {
+            new MyDialog(this).showWarmDialog(this, "請開啟網路。");
+        }
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycle_listview);
         tM  = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-
-        setView();
 
     }
 
@@ -141,5 +148,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void checkPermisson(){
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.READ_PHONE_STATE}, REQUEST_PHONE_STATE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PHONE_STATE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 取得權限
+                    setView();
+                } else {
+                    // 未取得權限
+                    new MyDialog(this).showWarmDialog(MainActivity.this, "請開啟權限。");
+                }
+                break;
+        }
+    }
 }
