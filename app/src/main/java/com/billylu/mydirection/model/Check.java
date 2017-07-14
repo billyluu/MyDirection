@@ -10,7 +10,8 @@ import android.net.NetworkInfo;
 
 public class Check {
 
-    private Context mContext;
+    private static Context mContext;
+
 
     public Check(Context mContext) {
         this.mContext = mContext;
@@ -42,4 +43,8 @@ public class Check {
 
         return result;
     }
+
+
+
+
 }
