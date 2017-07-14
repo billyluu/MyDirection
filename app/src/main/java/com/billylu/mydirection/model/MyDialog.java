@@ -3,6 +3,7 @@ package com.billylu.mydirection.model;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -55,6 +56,18 @@ public class MyDialog {
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
+    }
+
+    public void showWarmDialog(final AppCompatActivity activity, String msg) {
+        builder.setMessage(msg)
+                .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.finish();
+                    }
+                })
+                .show();
+
     }
 
 }
