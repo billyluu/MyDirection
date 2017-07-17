@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycle_listview);
         tM  = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        setView();
 
     }
 

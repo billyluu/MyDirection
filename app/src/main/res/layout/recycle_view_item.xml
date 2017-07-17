@@ -6,7 +6,8 @@
     android:layout_height="60dp"
     android:id="@+id/viewitem"
     android:layout_marginBottom="0.5dp"
-    android:background="@drawable/item_shape">
+    android:background="@drawable/item_shape"
+    android:elevation="3dp">
 
 
     <TextView
