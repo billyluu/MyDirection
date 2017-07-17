@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!new Check(this).checkNetWork()) {
             new MyDialog(this).showWarmDialog(this, "請開啟網路。");
+            return;
         }
 
 
