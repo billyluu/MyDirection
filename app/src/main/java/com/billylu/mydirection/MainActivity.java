@@ -1,7 +1,6 @@
 package com.billylu.mydirection;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.billylu.mydirection.model.CallBack;
+
 import com.billylu.mydirection.model.Check;
-import com.billylu.mydirection.model.DirectionBean;
+import com.billylu.mydirection.bean.DirectionBean;
 import com.billylu.mydirection.model.FireBaseModel;
 import com.billylu.mydirection.model.MyDialog;
+import com.billylu.mydirection.model.Utils;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecycleAdapter adapter;
-    private TelephonyManager tM;
+    private String imei;
 
 
     @Override
@@ -43,32 +42,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkPermisson();
+        checkNetWork();
 
-        if (!new Check(this).checkNetWork()) {
-            new MyDialog(this).showWarmDialog(this, "請開啟網路。");
-            return;
-        }
-
-
+        imei = new Utils(this).getIMEI();
         recyclerView = (RecyclerView) findViewById(R.id.recycle_listview);
-        tM  = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        setView();
 
+        if (!imei.equals(null)) {
+            setView();
+        }
     }
 
     public void btn_add_direction(View view){
         MyDialog dialog = new MyDialog(this);
-        String imei = tM.getDeviceId();
-        dialog.showAddDirectionDialog(imei, new CallBack() {
-            @Override
-            public void onChanged() {
-                setView();
-            }
-        });
+        dialog.showAddDirectionDialog(imei);
     }
 
     private void setView() {
-        String imei = tM.getDeviceId();
         new FireBaseModel(imei).readData(new FireBaseModel.FireBaseCallBack(){
             @Override
             public void onGetData(List<DirectionBean> list) {
@@ -92,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         public RecycleAdapter(List<DirectionBean> list, int layout) {
             this.layout = layout;
             this.list = list;
-
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -131,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onLongClick(View v) {
                     String key = bean.getKey();
-                    String imei = tM.getDeviceId();
                     new MyDialog(MainActivity.this).deleteDialog(imei, key);
                     return true;
                 }
@@ -152,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkPermisson(){
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{android.Manifest.permission.READ_PHONE_STATE}, REQUEST_PHONE_STATE);
@@ -172,6 +158,13 @@ public class MainActivity extends AppCompatActivity {
                     new MyDialog(this).showWarmDialog(MainActivity.this, "請開啟權限。");
                 }
                 break;
+        }
+    }
+
+    private void checkNetWork() {
+        if (!new Check(this).checkNetWork()) {
+            new MyDialog(this).showWarmDialog(this, "請開啟網路。");
+            return;
         }
     }
 }

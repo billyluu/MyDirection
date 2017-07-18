@@ -2,6 +2,7 @@ package com.billylu.mydirection.model;
 
 import android.util.Log;
 
+import com.billylu.mydirection.bean.DirectionBean;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

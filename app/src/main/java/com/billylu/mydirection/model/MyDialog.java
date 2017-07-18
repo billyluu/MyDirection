@@ -30,7 +30,7 @@ public class MyDialog {
         builder.show();
     }
 
-    public void showAddDirectionDialog(final String imei, final CallBack callBack) {
+    public void showAddDirectionDialog(final String imei) {
         final View layout = LayoutInflater.from(context).inflate(R.layout.add_direction_layout, null);
         builder.setTitle("新增目的地")
                 .setView(layout)
@@ -39,7 +39,7 @@ public class MyDialog {
                     public void onClick(DialogInterface dialog, int which) {
                             String direction = ((EditText)layout.findViewById(R.id.edit_direction)).getText().toString();
                             new FireBaseModel(imei).saveData(direction);
-                            callBack.onChanged();
+
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)
