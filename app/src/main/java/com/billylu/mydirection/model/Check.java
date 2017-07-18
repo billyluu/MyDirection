@@ -9,9 +9,7 @@ import android.net.NetworkInfo;
  */
 
 public class Check {
-
     private static Context mContext;
-
 
     public Check(Context mContext) {
         this.mContext = mContext;
@@ -37,14 +35,8 @@ public class Check {
 //            mNetworkInfo.isFailover();
 //            //網路是否在漫遊模式
 //            mNetworkInfo.isRoaming();
-
             result = true;
         }
-
         return result;
     }
-
-
-
-
 }

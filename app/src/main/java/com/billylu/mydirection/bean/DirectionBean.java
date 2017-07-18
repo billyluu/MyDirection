@@ -5,9 +5,8 @@ package com.billylu.mydirection.bean;
  */
 
 public class DirectionBean {
-
-    public String key;
-    public String direction;
+    private String key;
+    private String direction;
 
     public String getKey() {
         return key;
@@ -24,8 +23,5 @@ public class DirectionBean {
     public void setDirection(String direction) {
         this.direction = direction;
     }
-
-
-
 
 }

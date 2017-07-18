@@ -39,7 +39,6 @@ public class MyDialog {
                     public void onClick(DialogInterface dialog, int which) {
                             String direction = ((EditText)layout.findViewById(R.id.edit_direction)).getText().toString();
                             new FireBaseModel(imei).saveData(direction);
-
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)
@@ -69,5 +68,4 @@ public class MyDialog {
                 .show();
 
     }
-
 }

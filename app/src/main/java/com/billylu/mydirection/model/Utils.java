@@ -18,7 +18,4 @@ public class Utils {
     public String getIMEI() {
         return telephonyManager.getDeviceId();
     }
-
-
-
 }

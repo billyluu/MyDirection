@@ -59,5 +59,4 @@ public class FireBaseModel {
     public interface FireBaseCallBack {
         void onGetData(List<DirectionBean> list);
     }
-
 }
