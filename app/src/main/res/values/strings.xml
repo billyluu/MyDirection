@@ -5,4 +5,8 @@
 
     <string name="confirm">確定</string>
     <string name="cancel">取消</string>
+
+    <string name="add">新增</string>
+    <string name="setting">設定</string>
+    <string name="exit">離開</string>
 </resources>

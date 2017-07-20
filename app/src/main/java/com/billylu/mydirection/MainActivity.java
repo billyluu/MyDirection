@@ -26,7 +26,7 @@ import com.billylu.mydirection.model.Utils;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private final String TAG = MainActivity.class.getSimpleName();
 
     private static final int REQUEST_PHONE_STATE = 0;
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setToorbar(R.id.toolbar, true);
         checkPermisson();
         checkNetWork();
 
