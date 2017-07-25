@@ -8,9 +8,11 @@
           app:showAsAction="always"/>
 
     <item android:title="@string/setting"
-          android:id="@+id/menu_setting"/>
+          android:id="@+id/menu_setting"
+          app:showAsAction="never"/>
 
     <item android:title="@string/exit"
-          android:id="@+id/menu_exit"/>
+          android:id="@+id/menu_exit"
+          app:showAsAction="never"/>
 
 </menu>

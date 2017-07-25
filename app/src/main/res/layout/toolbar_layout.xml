@@ -10,7 +10,9 @@
         android:layout_height="50dp"
         android:background="@color/colorPrimary"
         android:id="@+id/toolbar"
-        android:elevation="3dp" >
+        android:elevation="3dp"
+        app:title="@string/app_name01"
+        app:titleTextColor="@color/white">
 
     </android.support.v7.widget.Toolbar>
 

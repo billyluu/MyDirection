@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.billylu.mydirection.model.BaseActivity;
 import com.billylu.mydirection.model.Check;
 import com.billylu.mydirection.bean.DirectionBean;
 import com.billylu.mydirection.model.FireBaseModel;
@@ -35,13 +36,12 @@ public class MainActivity extends BaseActivity {
     private RecycleAdapter adapter;
     private String imei;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setToorbar(R.id.toolbar, true);
+        setToolbar(R.id.toolbar, true, R.menu.toolbar_menu);
         checkPermisson();
         checkNetWork();
 
@@ -50,6 +50,22 @@ public class MainActivity extends BaseActivity {
 
         if (!imei.equals(null)) {
             setView();
+        }
+    }
+
+    @Override
+    protected void setMenuItemAction(int itemID) {
+        super.setMenuItemAction(itemID);
+        switch (itemID){
+            case R.id.menu_add:
+                Toast.makeText(MainActivity.this, "新增", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_setting:
+                Toast.makeText(MainActivity.this, "設定", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_exit:
+                Toast.makeText(MainActivity.this, "離開", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
