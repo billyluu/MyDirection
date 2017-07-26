@@ -1,10 +1,7 @@
 package com.billylu.mydirection;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 
 
 import com.billylu.mydirection.model.BaseActivity;
-import com.billylu.mydirection.model.Check;
 import com.billylu.mydirection.bean.DirectionBean;
 import com.billylu.mydirection.model.FireBaseModel;
 import com.billylu.mydirection.model.MyDialog;
@@ -30,7 +26,7 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
     private final String TAG = MainActivity.class.getSimpleName();
 
-    private static final int REQUEST_PHONE_STATE = 0;
+
 
     private RecyclerView recyclerView;
     private RecycleAdapter adapter;
@@ -42,15 +38,12 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         setToolbar(R.id.toolbar, true, R.menu.toolbar_menu);
-        checkPermisson();
-        checkNetWork();
+
 
         imei = new Utils(this).getIMEI();
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_listview);
+        recyclerView = (RecyclerView) findViewById(R.id.main_recycle_listview);
 
-        if (!imei.equals(null)) {
-            setView();
-        }
+
     }
 
     @Override
@@ -75,9 +68,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setView() {
-        new FireBaseModel(imei).readData(new FireBaseModel.FireBaseCallBack(){
+        new FireBaseModel(imei).readData("Direction", new FireBaseModel.FireBaseCallBack(){
             @Override
-            public void onGetData(List<DirectionBean> list) {
+            public void onGetData(List list) {
                 setRecyclerView(list);
             }
         });
@@ -87,7 +80,7 @@ public class MainActivity extends BaseActivity {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecycleAdapter(dataList, R.layout.recycle_view_item);
+        adapter = new RecycleAdapter(dataList, R.layout.direction_item);
         recyclerView.setAdapter(adapter);
     }
 
@@ -155,33 +148,5 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void checkPermisson(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{android.Manifest.permission.READ_PHONE_STATE}, REQUEST_PHONE_STATE);
-            }
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PHONE_STATE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // 取得權限
-                    setView();
-                } else {
-                    // 未取得權限
-                    new MyDialog(this).showWarmDialog(MainActivity.this, "請開啟權限。");
-                }
-                break;
-        }
-    }
-
-    private void checkNetWork() {
-        if (!new Check(this).checkNetWork()) {
-            new MyDialog(this).showWarmDialog(this, "請開啟網路。");
-            return;
-        }
-    }
 }
