@@ -3,16 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="@string/add"
-          android:icon="@drawable/btn_add"
+          android:icon="@drawable/btn_add_style"
           android:id="@+id/menu_add"
-          app:showAsAction="always"/>
+          app:showAsAction="always|collapseActionView"/>
 
-    <item android:title="@string/setting"
-          android:id="@+id/menu_setting"
-          app:showAsAction="never"/>
+    <group>
+        <item android:title="@string/setting"
+            android:id="@+id/menu_setting"
+            app:showAsAction="never|collapseActionView"/>
 
-    <item android:title="@string/exit"
-          android:id="@+id/menu_exit"
-          app:showAsAction="never"/>
+        <item android:title="@string/exit"
+            android:id="@+id/menu_exit"
+            app:showAsAction="never|collapseActionView" />
+    </group>
+
+
 
 </menu>

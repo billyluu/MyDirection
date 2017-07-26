@@ -12,7 +12,8 @@
         android:id="@+id/toolbar"
         android:elevation="3dp"
         app:title="@string/app_name01"
-        app:titleTextColor="@color/white">
+        app:titleTextColor="@color/white"
+        app:popupTheme="@style/OverflowMenuStyle" >
 
     </android.support.v7.widget.Toolbar>
 

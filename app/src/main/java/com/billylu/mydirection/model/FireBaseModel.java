@@ -9,8 +9,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by BillyLu on 2017/7/12.
@@ -26,22 +30,32 @@ public class FireBaseModel {
         myRef = database.getReference(imei);
     }
 
-    public void saveData(String direction) {
-        myRef.push().child("Direction").setValue(direction);
-        Log.i(TAG, "saveData");
+    public void saveData(String KEY ,String value) {
+        myRef.push().child(KEY).setValue(value);
+
     }
 
-    public void readData(final FireBaseCallBack fireBaseCallBack) {
+    public void readData(final String KEY, final FireBaseCallBack fireBaseCallBack) {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<DirectionBean> list = new ArrayList<DirectionBean>();
+                Log.i(TAG, dataSnapshot + "");
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    DirectionBean bean = new DirectionBean();
-                    bean.setKey(ds.getKey());
-                    bean.setDirection(ds.child("Direction").getValue().toString());
-                    list.add(bean);
+                    try {
+                        Log.i(TAG, ds.getKey());
+                        Log.i(TAG, ds.getValue()+ "");
+                        HashMap map = (HashMap) ds.getValue();
+                        DirectionBean bean = new DirectionBean();
+                        bean.setId(ds.getKey());
+                        bean.setDate((String) map.getOrDefault("Date", ""));
+                        bean.setDirection((String) map.getOrDefault("Direction", ""));
+                        list.add(bean);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
+
                 fireBaseCallBack.onGetData(list);
             }
 
@@ -52,11 +66,12 @@ public class FireBaseModel {
         });
     }
 
+
     public void deleteData(String key){
         myRef.child(key).removeValue();
     }
 
     public interface FireBaseCallBack {
-        void onGetData(List<DirectionBean> list);
+        void onGetData(List list);
     }
 }

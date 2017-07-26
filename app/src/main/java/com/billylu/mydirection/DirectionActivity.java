@@ -1,5 +1,6 @@
 package com.billylu.mydirection;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,20 +18,21 @@ import android.widget.Toast;
 
 import com.billylu.mydirection.model.BaseActivity;
 import com.billylu.mydirection.bean.DirectionBean;
-import com.billylu.mydirection.model.FireBaseModel;
 import com.billylu.mydirection.model.MyDialog;
 import com.billylu.mydirection.model.Utils;
 
-import java.util.List;
 
-public class MainActivity extends BaseActivity {
-    private final String TAG = MainActivity.class.getSimpleName();
-
-
+public class DirectionActivity extends BaseActivity {
+    private final String TAG = DirectionActivity.class.getSimpleName();
 
     private RecyclerView recyclerView;
     private RecycleAdapter adapter;
     private String imei;
+
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, DirectionActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +41,13 @@ public class MainActivity extends BaseActivity {
 
         setToolbar(R.id.toolbar, true, R.menu.toolbar_menu);
 
+        DirectionBean bean = (DirectionBean) getIntent().getExtras().getSerializable("bean");
 
         imei = new Utils(this).getIMEI();
         recyclerView = (RecyclerView) findViewById(R.id.main_recycle_listview);
 
+
+        setView(bean);
 
     }
 
@@ -51,13 +56,13 @@ public class MainActivity extends BaseActivity {
         super.setMenuItemAction(itemID);
         switch (itemID){
             case R.id.menu_add:
-                Toast.makeText(MainActivity.this, "新增", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DirectionActivity.this, "新增", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_setting:
-                Toast.makeText(MainActivity.this, "設定", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DirectionActivity.this, "設定", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_exit:
-                Toast.makeText(MainActivity.this, "離開", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DirectionActivity.this, "離開", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -67,30 +72,25 @@ public class MainActivity extends BaseActivity {
         dialog.showAddDirectionDialog(imei);
     }
 
-    private void setView() {
-        new FireBaseModel(imei).readData("Direction", new FireBaseModel.FireBaseCallBack(){
-            @Override
-            public void onGetData(List list) {
-                setRecyclerView(list);
-            }
-        });
+    private void setView(DirectionBean bean) {
+        setRecyclerView(bean);
     }
 
-    private void setRecyclerView(List<DirectionBean> dataList) {
+    private void setRecyclerView(DirectionBean bean) {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecycleAdapter(dataList, R.layout.direction_item);
+        adapter = new RecycleAdapter(bean, R.layout.direction_item);
         recyclerView.setAdapter(adapter);
     }
 
     class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
         private int layout;
-        private List<DirectionBean> list;
+        private DirectionBean bean;
 
-        public RecycleAdapter(List<DirectionBean> list, int layout) {
+        public RecycleAdapter(DirectionBean bean, int layout) {
             this.layout = layout;
-            this.list = list;
+            this.bean = bean;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -114,7 +114,6 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(RecycleAdapter.ViewHolder holder, final int position) {
-            final DirectionBean bean = list.get(position);
             holder.textView.setText(bean.getDirection());
             holder.send.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -128,8 +127,8 @@ public class MainActivity extends BaseActivity {
             holder.viewitem.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    String key = bean.getKey();
-                    new MyDialog(MainActivity.this).deleteDialog(imei, key);
+                    String key = bean.getId();
+                    new MyDialog(DirectionActivity.this).deleteDialog(imei, key);
                     return true;
                 }
             });
@@ -137,7 +136,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return 1;
         }
 
         public void startSearchDirection(String dir) {

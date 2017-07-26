@@ -1,19 +1,32 @@
 package com.billylu.mydirection.bean;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by art-imac-02 on 2017/7/13.
  */
 
-public class DirectionBean {
-    private String key;
+public class DirectionBean implements Serializable{
+    private String id;
+    private String date;
     private String direction;
 
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDirection() {
@@ -23,5 +36,9 @@ public class DirectionBean {
     public void setDirection(String direction) {
         this.direction = direction;
     }
+
+
+
+
 
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.billylu.mydirection.R;
@@ -30,6 +31,26 @@ public class MyDialog {
         builder.show();
     }
 
+    public void showDatePickerDialog(final String imei){
+        final View layout = LayoutInflater.from(context).inflate(R.layout.add_date_layout, null);
+        builder.setTitle("設定日期")
+                .setView(layout)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatePicker datePicker = (DatePicker) layout.findViewById(R.id.date_picker);
+                        int year = datePicker.getYear();
+                        int month = datePicker.getMonth()+1;
+                        int day = datePicker.getDayOfMonth();
+                        String date = year + "-" + month + "-" + day;
+                        new FireBaseModel(imei).saveData("Date", date);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+
+    }
+
     public void showAddDirectionDialog(final String imei) {
         final View layout = LayoutInflater.from(context).inflate(R.layout.add_direction_layout, null);
         builder.setTitle("新增目的地")
@@ -38,7 +59,7 @@ public class MyDialog {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                             String direction = ((EditText)layout.findViewById(R.id.edit_direction)).getText().toString();
-                            new FireBaseModel(imei).saveData(direction);
+                            new FireBaseModel(imei).saveData("Direction", direction);
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)

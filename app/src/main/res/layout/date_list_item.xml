@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="60dp"
+    android:id="@+id/date_list_item"
+    android:layout_marginBottom="0.5dp"
+    android:background="@drawable/item_shape"
+    android:elevation="3dp">
 
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="56dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="日期："
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="11dp"
+        android:gravity="left|center"
+        android:text="TextView"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toRightOf="@+id/textView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView" />
+
+</android.support.constraint.ConstraintLayout>
