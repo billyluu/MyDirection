@@ -2,6 +2,7 @@ package com.billylu.mydirection.model;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -46,6 +47,25 @@ public class BaseActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+    }
+
+    protected void setMenuAddButton(Boolean show){
+        if (!show) {
+            mToolbar.getMenu().getItem(0).setVisible(false);
+        } else {
+            return;
+        }
+    }
+
+    protected void setMenuPoint(Boolean show){
+        if (!show) {
+            mToolbar.getMenu().getItem(1).setVisible(false);
+            mToolbar.getMenu().getItem(2).setVisible(false);
+        } else {
+            return;
+        }
     }
     
     protected void setMenuItemAction(int itemID){

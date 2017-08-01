@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by art-imac-02 on 2017/7/13.
+ * Created by BillyLu on 2017/7/13.
  */
 
 public class Check {
