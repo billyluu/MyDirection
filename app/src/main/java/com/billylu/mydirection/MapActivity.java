@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.billylu.mydirection.bean.PositionBean;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private PositionBean positionBean;
     private LatLng latLng;
 
     @Override
@@ -30,9 +32,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 //        setMenuAddButton(false);
 //        setMenuPoint(false);
 
-        String[] result = getIntent().getStringArrayExtra("latlng");
-        Log.i("result", result[0] + "," + result[1]);
-        latLng = getLatlng(result);
+        Bundle bundle = getIntent().getExtras();
+        positionBean = (PositionBean) bundle.getSerializable("bean");
+        latLng = getLatlng(positionBean);
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -44,9 +46,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     }
 
-    private LatLng getLatlng(String[] latlng) {
-        double lat = Double.valueOf(latlng[0]);
-        double lng = Double.valueOf(latlng[1]);
+    private LatLng getLatlng(PositionBean bean) {
+        double lat = bean.getLat();
+        double lng = bean.getLng();
         
         return new LatLng(lat, lng);
     }
@@ -60,7 +62,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(latLng).title(positionBean.getAddress()));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
     }
 }

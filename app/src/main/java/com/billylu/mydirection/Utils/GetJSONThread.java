@@ -1,10 +1,7 @@
 package com.billylu.mydirection.Utils;
 
-import android.util.Log;
-
-import com.billylu.mydirection.model.MyDialog;
+import com.billylu.mydirection.bean.PositionBean;
 import com.billylu.mydirection.model.OkHttp;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 
@@ -12,13 +9,13 @@ import java.io.IOException;
  * Created by billylu on 2017/9/6.
  */
 
-public class GetXMLThread extends Thread {
+public class GetJSONThread extends Thread {
 
     private String url;
     private CallBack callBack;
 
 
-    public GetXMLThread(String url, GetXMLThread.CallBack callBack) {
+    public GetJSONThread(String url, GetJSONThread.CallBack callBack) {
         this.url = url;
         this.callBack = callBack;
     }
@@ -29,9 +26,8 @@ public class GetXMLThread extends Thread {
         try {
             OkHttp okHttp = new OkHttp(url);
             String xmlPath = okHttp.get();
-            ParserXML p = new ParserXML();
-            String[] latlng = p.parseXML(xmlPath);
-            callBack.getResult(latlng);
+            PositionBean positionBean = new ParserJSON().parseJson(xmlPath);
+            callBack.getResult(positionBean);
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -40,7 +36,7 @@ public class GetXMLThread extends Thread {
 
     public interface CallBack{
 
-        void getResult(String[] latLng);
+        void getResult(PositionBean positionBean);
 
     }
 }

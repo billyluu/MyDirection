@@ -1,7 +1,6 @@
 package com.billylu.mydirection;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,13 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.billylu.mydirection.Utils.GetXMLThread;
+import com.billylu.mydirection.Utils.GetJSONThread;
 import com.billylu.mydirection.bean.DirectionBean;
+import com.billylu.mydirection.bean.PositionBean;
 import com.billylu.mydirection.model.BaseActivity;
 import com.billylu.mydirection.bean.DataBean;
 import com.billylu.mydirection.model.MyDialog;
 import com.billylu.mydirection.model.Utils;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -132,14 +133,16 @@ public class DirectionActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     String dir = list.get(position).getDirection();
-                    String url = "http://maps.google.com/maps/api/geocode/xml?sensor=false&address={0}," + dir;
+                    String url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address={0}," + dir;
                     Log.i(TAG, "URL: " + url);
 
-                    new GetXMLThread(url, new GetXMLThread.CallBack() {
+                    new GetJSONThread(url, new GetJSONThread.CallBack() {
                         @Override
-                        public void getResult(String[] latLng) {
+                        public void getResult(PositionBean positionBean) {
                             Intent intent = new Intent(DirectionActivity.this, MapActivity.class);
-                            intent.putExtra("latlng", latLng);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("bean", (Serializable) positionBean);
+                            intent.putExtras(bundle);
                             startActivity(intent);
                         }
                     }).start();
