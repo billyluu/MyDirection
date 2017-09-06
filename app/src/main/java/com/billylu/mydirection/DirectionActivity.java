@@ -1,6 +1,5 @@
 package com.billylu.mydirection;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.billylu.mydirection.Utils.GetXMLThread;
 import com.billylu.mydirection.bean.DirectionBean;
 import com.billylu.mydirection.model.BaseActivity;
 import com.billylu.mydirection.bean.DataBean;
@@ -132,8 +132,22 @@ public class DirectionActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     String dir = list.get(position).getDirection();
-                    Log.i("DIR", dir);
-                    startSearchDirection(dir);
+//                    Log.i("DIR", dir);
+//                    startSearchDirection(dir);
+                    String url = "http://maps.google.com/maps/api/geocode/xml?sensor=false&address={0}," + dir;
+                    Log.i(TAG, "URL: " + url);
+
+                    new GetXMLThread(url, new GetXMLThread.CallBack() {
+                        @Override
+                        public void getResult(String[] latLng) {
+                            Intent intent = new Intent(DirectionActivity.this, MapActivity.class);
+                            intent.putExtra("latlng", latLng);
+                            startActivity(intent);
+                        }
+                    }).start();
+
+
+
                 }
             });
 
