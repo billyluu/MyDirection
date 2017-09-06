@@ -30,12 +30,11 @@ public class ParserXML {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(inputStream);
-
             Element root = document.getDocumentElement();
 
             String lat = root.getElementsByTagName("lat").item(0).getTextContent();
             String lng = root.getElementsByTagName("lng").item(0).getTextContent();
-            Log.i("ParserXML", lat + "," + lng);
+
             latlng[0] = lat;
             latlng[1] = lng;
 

@@ -132,8 +132,6 @@ public class DirectionActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     String dir = list.get(position).getDirection();
-//                    Log.i("DIR", dir);
-//                    startSearchDirection(dir);
                     String url = "http://maps.google.com/maps/api/geocode/xml?sensor=false&address={0}," + dir;
                     Log.i(TAG, "URL: " + url);
 
@@ -145,9 +143,6 @@ public class DirectionActivity extends BaseActivity {
                             startActivity(intent);
                         }
                     }).start();
-
-
-
                 }
             });
 
@@ -172,13 +167,6 @@ public class DirectionActivity extends BaseActivity {
         @Override
         public int getItemCount() {
             return bean.getDirectionList().size();
-        }
-
-        public void startSearchDirection(String dir) {
-            Uri intentUri = Uri.parse("geo:0,0?q="+dir);
-            Intent intent = new Intent(Intent.ACTION_VIEW, intentUri);
-            intent.setPackage("com.google.android.apps.maps");
-            startActivity(intent);
         }
     }
 

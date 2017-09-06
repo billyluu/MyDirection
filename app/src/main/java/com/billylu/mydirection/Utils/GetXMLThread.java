@@ -33,7 +33,7 @@ public class GetXMLThread extends Thread {
             String[] latlng = p.parseXML(xmlPath);
             callBack.getResult(latlng);
         }catch (IOException e){
-
+            e.printStackTrace();
         }
 
     }
