@@ -16,11 +16,11 @@ import android.widget.Toast;
 
 
 import com.billylu.mydirection.bean.DataBean;
-import com.billylu.mydirection.model.BaseActivity;
-import com.billylu.mydirection.model.Check;
+import com.billylu.mydirection.Utils.BaseActivity;
+import com.billylu.mydirection.Utils.Check;
 import com.billylu.mydirection.model.FireBaseModel;
-import com.billylu.mydirection.model.MyDialog;
-import com.billylu.mydirection.model.Utils;
+import com.billylu.mydirection.Utils.MyDialog;
+import com.billylu.mydirection.Utils.Utils;
 
 import java.util.List;
 

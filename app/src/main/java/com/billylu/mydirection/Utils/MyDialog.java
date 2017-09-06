@@ -1,4 +1,4 @@
-package com.billylu.mydirection.model;
+package com.billylu.mydirection.Utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,9 +15,9 @@ import com.billylu.mydirection.DirectionActivity;
 import com.billylu.mydirection.R;
 import com.billylu.mydirection.bean.DataBean;
 import com.billylu.mydirection.bean.DirectionBean;
+import com.billylu.mydirection.model.FireBaseModel;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by BillyLu on 2017/7/10.

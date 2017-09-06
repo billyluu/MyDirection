@@ -17,10 +17,10 @@ import android.widget.Toast;
 import com.billylu.mydirection.Utils.GetJSONThread;
 import com.billylu.mydirection.bean.DirectionBean;
 import com.billylu.mydirection.bean.PositionBean;
-import com.billylu.mydirection.model.BaseActivity;
+import com.billylu.mydirection.Utils.BaseActivity;
 import com.billylu.mydirection.bean.DataBean;
-import com.billylu.mydirection.model.MyDialog;
-import com.billylu.mydirection.model.Utils;
+import com.billylu.mydirection.Utils.MyDialog;
+import com.billylu.mydirection.Utils.Utils;
 
 import java.io.Serializable;
 import java.util.List;

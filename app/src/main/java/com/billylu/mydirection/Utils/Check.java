@@ -1,4 +1,4 @@
-package com.billylu.mydirection.model;
+package com.billylu.mydirection.Utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

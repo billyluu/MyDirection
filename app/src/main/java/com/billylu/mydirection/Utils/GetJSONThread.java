@@ -1,7 +1,6 @@
 package com.billylu.mydirection.Utils;
 
 import com.billylu.mydirection.bean.PositionBean;
-import com.billylu.mydirection.model.OkHttp;
 
 import java.io.IOException;
 
@@ -24,7 +23,7 @@ public class GetJSONThread extends Thread {
     public void run() {
         super.run();
         try {
-            OkHttp okHttp = new OkHttp(url);
+            BaseActivity.OkHttp okHttp = new BaseActivity.OkHttp(url);
             String xmlPath = okHttp.get();
             PositionBean positionBean = new ParserJSON().parseJson(xmlPath);
             callBack.getResult(positionBean);
