@@ -18,6 +18,8 @@ import java.nio.charset.StandardCharsets;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import okio.Utf8;
+
 /**
  * Created by billylu on 2017/9/6.
  */
@@ -32,6 +34,8 @@ public class ParserJSON implements Serializable{
     public PositionBean parseJson(String JsonContent) {
         PositionBean positionBean = new PositionBean();
         try {
+
+            Log.i(TAG, "JSON" + JsonContent);
             JSONObject jsonObject = new JSONObject(JsonContent);
             JSONObject obj = jsonObject.getJSONArray("results").getJSONObject(0);
             JSONObject geometry = obj.getJSONObject("geometry");

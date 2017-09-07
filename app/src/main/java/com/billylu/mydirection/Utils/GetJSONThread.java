@@ -23,7 +23,7 @@ public class GetJSONThread extends Thread {
     public void run() {
         super.run();
         try {
-            BaseActivity.OkHttp okHttp = new BaseActivity.OkHttp(url);
+            MyOkHttp okHttp = new MyOkHttp(url);
             String xmlPath = okHttp.get();
             PositionBean positionBean = new ParserJSON().parseJson(xmlPath);
             callBack.getResult(positionBean);

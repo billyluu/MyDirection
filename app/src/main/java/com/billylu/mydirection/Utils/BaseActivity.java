@@ -77,34 +77,5 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Created by billylu on 2017/9/2.
-     */
 
-    public static class OkHttp {
-
-        private OkHttpClient mOkHttpClient;
-        private String URL = "";
-
-        public OkHttp(String URL) {
-            mOkHttpClient = new OkHttpClient();
-            this.URL = URL;
-        }
-
-
-
-        public String get() throws IOException {
-
-
-            Request request = new Request.Builder()
-                    .url(URL)
-                    .build();
-
-
-            Response response = mOkHttpClient.newCall(request).execute();
-            return response.body().string();
-        }
-
-
-    }
 }
